@@ -36,6 +36,19 @@ void *mandelbrot(void *arg){
 	pthread_exit(NULL);
 }
 
+void handle_threads(pthread_t *threads, thread_param *param, int thread_amount){
+	for(int tid = 0; tid < thread_amount; tid++){
+		// criando as threads
+		pthread_create(&threads[tid], NULL, mandelbrot, (void*) &param[tid]);
+	}
+	for (int tid = 0; tid < thread_amount; tid++){
+		// esperando as threads terminarem
+		pthread_join(threads[tid], NULL);
+	}
+	free(threads);
+	free(param);
+}
+
 double wtime(){
 	struct timeval t;
 	gettimeofday(&t, NULL);
@@ -78,16 +91,8 @@ int main(){
 		param[i].mat 		= mat;
 	}
 
-	for(int tid = 0; tid < thread_amount; tid++){
-		// criando as threads
-		pthread_create(&threads[tid], NULL, mandelbrot, (void*) &param[tid]);
-	}
-
 	start_time = wtime();
-	for (int tid = 0; tid < thread_amount; tid++){
-		// esperando as threads terminarem
-		pthread_join(threads[tid], NULL);
-	}
+	handle_threads(threads, param, thread_amount);
 	end_time = wtime();
 
 	printf("%d %f\n", thread_amount, end_time - start_time);
