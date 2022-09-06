@@ -10,10 +10,12 @@ def parse():
 
     # criando um dict pra cada conjunto de resultados
     # dict é indexado pela qtd de threads que executaram
-    mandelResults = dict()
-    matrixResults = dict()
+    mandelResults     = dict()
+    matrixResults     = dict()
+    mandelFreeResults = dict()
     for i in range(1,9):
         mandelResults[i] = []
+        mandelFreeResults[i] = []
         matrixResults[i] = []
 
     # extraindo os resultados
@@ -28,15 +30,20 @@ def parse():
                 thread, time = f.readline().split(" ")
                 time = time[:-2]
                 matrixResults[int(thread)].append(float(time))
+            with open(path + "mandelbrotFree"+str(i)+str(j)+".txt",'r') as f:
+                thread, time = f.readline().split(" ")
+                time = time[:-2]
+                mandelFreeResults[int(thread)].append(float(time))
 
-    return (mandelResults, matrixResults)
+    return (mandelResults, matrixResults, mandelFreeResults)
 
-def plot_aceleracao(speedUpMandel:list, speedUpMatrix:list):
+def plot_aceleracao(speedUpMandel:list, speedUpMatrix:list, speedUpMandelFree:list):
     """
     Função que plota o gráfico da aceleração das execuções dos algoritmos
     """
 
-    pyplot.plot(list(range(1,9)),speedUpMandel,label="Mandelbrot")
+    pyplot.plot(list(range(1,9)),speedUpMandel,label="Mandelbrot 1")
+    pyplot.plot(list(range(1,9)),speedUpMandelFree,label="Mandelbrot 2")
     pyplot.plot(list(range(1,9)),speedUpMatrix,label="Matrix")
 
     pyplot.xlabel("Threads")
@@ -51,12 +58,13 @@ def plot_aceleracao(speedUpMandel:list, speedUpMatrix:list):
 
     return (speedUpMandel, speedUpMatrix)
 
-def plot_eficiencia(eficienciaMandel:list, eficienciaMatrix:list):
+def plot_eficiencia(eficienciaMandel:list, eficienciaMatrix:list, eficienciaMandelFree:list):
     """
     Função que plota o gráfico da eficiência das execuções dos algoritmos
     """
 
-    pyplot.plot(list(range(1,9)),eficienciaMandel,label="Mandelbrot")
+    pyplot.plot(list(range(1,9)),eficienciaMandel,label="Mandelbrot 1")
+    pyplot.plot(list(range(1,9)),eficienciaMandel,label="Mandelbrot 2")
     pyplot.plot(list(range(1,9)),eficienciaMatrix,label="Matrix")
 
     pyplot.xlabel("Threads")
@@ -79,7 +87,7 @@ def box_plot(valores, nome):
 
     pyplot.show()
 
-def to_csv(mandel:dict, matrix:dict):
+def to_csv(mandel, matrix, mandelFree):
     """
     Exporta os dados da execução para um arquivo .csv
     """
@@ -88,21 +96,30 @@ def to_csv(mandel:dict, matrix:dict):
     campos.insert(0,"Threads")
 
     with open("mandelbrot.csv", 'w') as f:
+        writer = csv.writer(f)
         thread = 1
         writer.writerow(campos)
         for l in mandel:
-            writer = csv.writer(f)
             temp = [x for x in l]
             temp.insert(0, thread)
-            print(temp)
             writer.writerow(temp)
             thread += 1
 
     with open("matrix.csv", 'w') as f:
+        writer = csv.writer(f)
         thread = 1
         writer.writerow(campos)
         for l in matrix:
-            writer = csv.writer(f)
+            temp = [x for x in l]
+            temp.insert(0, thread)
+            writer.writerow(temp)
+            thread += 1
+    
+    with open("mandelFree.csv", 'w') as f:
+        writer = csv.writer(f)
+        thread = 1
+        writer.writerow(campos)
+        for l in mandelFree:
             temp = [x for x in l]
             temp.insert(0, thread)
             writer.writerow(temp)
@@ -112,7 +129,7 @@ def to_csv(mandel:dict, matrix:dict):
 def main():
 
     # obtendo os valores de tempo/thread
-    mandel, matrix = parse()
+    mandel, matrix, mandelFree = parse()
 
     # calculando as médias
     # fmean é uma função padrão que calcula a média em uma lista de floats
@@ -129,10 +146,23 @@ def main():
     speedUpMatrix    = [mediaSeqMatrix/paralelo for paralelo in mediaMatrix]
     eficienciaMatrix = [speedUpMatrix[i]/(i+1) for i in range(8)]
 
+    mediaSeqMandelFree   = fmean(mandelFree[1])
+    mediaMandelFree      = [fmean(mandelFree[k]) for k in mandelFree]
+    desviosMandelFree    = [stdev(mandelFree[k]) for k in mandelFree]
+    speedUpMandelFree    = [mediaSeqMandelFree/paralelo for paralelo in mediaMandelFree]
+    eficienciaMandelFree = [speedUpMandelFree[i]/(i+1) for i in range(8)]
+
     print("Média Mandelbrot Paralelo =", mediaMandel)
     print("Desvio Padrão Mandelbrot =", desviosMandel)
     print("SpeedUp Mandelbrot =",speedUpMandel)
     print("Eficiência Mandelbrot =",eficienciaMandel)
+
+    print()
+
+    print("Média Mandelbrot c/ Free Paralelo =", mediaMandelFree)
+    print("Desvio Padrão Mandelbrot c/ Free =", desviosMandelFree)
+    print("SpeedUp Mandelbrot c/ Free =",speedUpMandelFree)
+    print("Eficiência Mandelbrot c/ Free =",eficienciaMandelFree)
 
     print()
 
@@ -142,15 +172,15 @@ def main():
     print("Eficiência Matrix =",eficienciaMatrix)
 
     # comente a linha abaixo para gerar os gráficos
-    exit()
+    # exit()
 
     # plotando os gráficos
-    plot_aceleracao(speedUpMandel, speedUpMatrix)
-    plot_eficiencia(eficienciaMandel, eficienciaMatrix)
+    plot_aceleracao(speedUpMandel, speedUpMatrix, speedUpMandelFree)
+    plot_eficiencia(eficienciaMandel, eficienciaMatrix, eficienciaMandelFree)
 
     # exportando para csv
     # descomente a linha abaixo para gerar um .csv com os dados das execuções
-    # to_csv(list(mandel.values()), list(matrix.values()))
+    to_csv(list(mandel.values()), list(matrix.values()), list(mandelFree.values()))
 
 if __name__ == "__main__":
     main()
