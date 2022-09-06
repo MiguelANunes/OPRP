@@ -15,10 +15,12 @@
 % \usepackage[alf]{ABNTex/abntex2cite}
 \usepackage[ddmmyyyy]{datetime}
 
-\lstset{basicstyle=\ttfamily,
-	showstringspaces=false,
-	commentstyle=\color{red},
-	keywordstyle=\color{blue}
+\lstset{language=C++,
+	basicstyle=\ttfamily,
+	keywordstyle=\color{blue}\ttfamily,
+	stringstyle=\color{green}\ttfamily,
+	commentstyle=\color{gray}\ttfamily,
+	morecomment=[l][\color{magenta}]{\#}
 }
 
 \newcommand{\ttt}[1]{\texttt{#1}}
@@ -32,8 +34,8 @@
 
 	\section{Algoritmos e Descrição do Ambiente}
 
-		Foram analisados os algoritmos de Mandelbrot e Multiplicação de Matrizes, com apenas leves modificações na entrada de dados para
-		facilitar a automatização dos testes.
+		Foram analisados os algoritmos de Mandelbrot e Multiplicação de Matrizes, com apenas leves modificações na entrada de dados e
+		alocação de memória para facilitar a automatização dos testes.
 		Para o algoritmo de Mandelbrot, foram utilizadas os valores: 
 		
 		\begin{verbatim}
@@ -147,6 +149,78 @@
 		Já o algoritmo de Multiplicação de Matrizes teve um desempenho peculiar. Ao contrário do algoritmo de Mandelbrot, sua
 		eficiência continuamente aumentou com a adição de novas threads, não só isso, mas ela esteve acima de 100\% em todo os
 		momentos, o que pode ser um indicador de que a implementação, no computador onde foi testada, tem comportamento superlinear.
+
+		Após obtidos os dados descritos acima, uma nova rodada de testes foi realizada devido ao comportamento peculiar do algoritmo de 
+		Mandelbrot. Nos testes originais, memória era alocada sem ser liberada ao fim da execução e o tempo era medido antes e depois da função
+		\texttt{pthread\_join}, da seguinte forma:
+
+		\begin{lstlisting}[language=c++]
+	// Codigo foi omitido
+	start_time = wtime();
+	for (int tid = 0; tid < thread_amount; tid++){
+		// esperando as threads terminarem
+		pthread_join(threads[tid], NULL);
+		}
+	end_time = wtime();
+		\end{lstlisting}
+			
+		Esse trecho de código foi movido para uma função diferente, que além de lidar com a finalização de threads, também lida com sua
+		criação e liberação de sua memória após o término da sua execução, da seguinte forma:
+			
+			\begin{adjustwidth}{-1cm}{}
+		\begin{lstlisting}[language=c++]
+// Codigo foi omitido
+void handle_threads(pthread_t *threads, thread_param *param, int thread_amount){
+	for(int tid = 0; tid < thread_amount; tid++){
+		// criando as threads
+		pthread_create(&threads[tid], NULL, mandelbrot, (void*) &param[tid]);
+	}
+	for (int tid = 0; tid < thread_amount; tid++){
+		// esperando as threads terminarem
+		pthread_join(threads[tid], NULL);
+	}
+	free(threads);
+	free(param);
+}
+
+	// ...
+	// Codigo foi omitido
+
+	start_time = wtime();
+	handle_threads(threads, param, thread_amount);
+	end_time = wtime();
+		\end{lstlisting}
+			\end{adjustwidth}
+
+		Refazendo os testes com as duas versões do algoritmo de Mandelbrot teve os seguintes resultados, onde ``Mandelbrot 1'' se refere
+		a versão do algoritmo de Mandelbrot que foi testada na primeira rodada e ``Mandelbrot 2'' se refere a nova versão:
+
+		\includegraphics[scale=.7]{SpeedUpSegundoTeste.png}
+		
+		\includegraphics[scale=.7]{EficiênciaSegundoTeste.png}
+
+		\clearpage
+
+		\begin{table}[htb]
+			\begin{adjustwidth}{-1cm}{}
+				\csvautotabular{mandelbrot1.csv}
+				\caption{Dados da execução do algoritmo de Mandelbrot}
+			\end{adjustwidth}
+		\end{table}
+		\begin{table}[htb]
+			\begin{adjustwidth}{-1cm}{}
+				\csvautotabular{mandelFree1.csv}
+				\caption{Dados da execução do algoritmo de Mandelbrot Alterado}
+			\end{adjustwidth}
+		\end{table}
+		\begin{table}[htb]
+			\begin{adjustwidth}{-1cm}{}
+				\csvautotabular{matrix1.csv}
+				\caption{Dados da execução do algoritmo de Multiplicação de Matrizes}
+			\end{adjustwidth}
+		\end{table}
+
+		É evidente que as alterações no algoritmo não tiveram impacto significativo no seu desempenho.
 
 
 \end{document}
