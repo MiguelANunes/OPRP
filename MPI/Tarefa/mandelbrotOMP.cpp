@@ -12,7 +12,7 @@ double wtime(){
 }
 
 int main(){
-	int max_row, max_column, max_n, thread_amount;
+	int max_row, max_column, max_n, thread_amount=4;
 	double start_time, end_time;
 
 	// omp_sched_t kind;
@@ -24,7 +24,6 @@ int main(){
 	cin >> max_row;
 	cin >> max_column;
 	cin >> max_n;
-	cin >> thread_amount;
 
 	char **mat = (char**)malloc(sizeof(char*)*max_row);
 
