@@ -65,7 +65,7 @@ int main(int argc, char *argv[]){
 
 	if(rank == 0){
 		end_time = wtime();
-		cout << "Tempo para calcular a matriz " << end_time - start_time << endl;
+		cout << end_time - start_time << endl;
 	}
 	MPI_Finalize();
 	return 0;

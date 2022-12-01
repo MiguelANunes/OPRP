@@ -1,0 +1,10 @@
+Explicação do Algoritmo de RSA
+
+1 - Gera dois números primos aleatórios P e Q diferentes entre si
+2 - Calcula N = P * Q
+3 - Calcula E tal que E não tem divisores em comum com (P-1)*(Q-1)
+4 - Calcula D tal que D é o inverso modular* de E modulo (P-1)*(Q-1)
+5 - O par <E, N> define a chave pública
+6 - O par <D, N> define a chave privada
+
+* Inverso modular: O resto da divisão de E*D por (P-1)*(Q-1) é 1

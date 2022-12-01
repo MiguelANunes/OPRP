@@ -47,165 +47,119 @@
 		Pois foi observado experimentalmente que, em execuções sequenciais do algoritmo, essas entradas levavam, em média, 
 		64 segundos para serem processadas.
 
-		Os testes foram realizados nos computadores disponibilizados pelo professor, com as seguintes especificações:
-
-		\begin{description}
-			\item[CPU] \texttt{AMD Phenom(tm) II X4 B93 Processor @2.8GH}
-			\item[Memória] \texttt{3421 MiB}
-			\item[OS] \texttt{Ubuntu Linux 20.04 x86\_64}
-			\item[Kernel] \texttt{5.15.0-43-generic}
-		\end{description}
-
-		Os testes foram executados automaticamente a partir de um script em bash, com o auxílio de um makefile.
-		O algoritmo com MPI foi executado nos servidores \texttt{ens1} e \texttt{ens2}, já o algoritmo com Open MP foi apenas executado
-		no servidor \texttt{ens1}.
+		Os testes foram realizados nos servidores \texttt{ens1}, \texttt{ens2} e \texttt{ens4} disponibilizados pelo professor e
+		foram executados automaticamente a partir de um script em bash, com o auxílio de um makefile.
 
 	\section{Coleta dos Dados}
-		
-		Ao fim da execução dos algoritmos, o tempo levado para realizar seu cálculo e, no caso do Open MP, a 
-		quantidade de \textit{threads} utilizada, é imprimida para \texttt{stdout}. 
-		Nos testes \texttt{stdout} era redirecionado para um arquivo de texto por meio de 
-		operações de \textit{pipe} do bash. O nome dos arquivos de saída segue o formato \break \texttt{algoritmo\_númeroTeste}, 
-		onde \_ é apenas um separador para visualização e não estava de fato no nome dos arquivos.
-		Por exemplo, o arquivo \texttt{mandelbrotOMP1} se refere a segunda execução do algoritmo de mandelbrot com Open MP.
+		O algoritmo usando MPI foi executado em 12 processos, 4 processos em cada servidor, já o algoritmo usando Open MP foi executado
+		com 4 threads em cada servidor.
+		Ao fim da execução dos algoritmos, o tempo de execução é imprimida para \texttt{stdout}. 
+		Nos testes \texttt{stdout} era redirecionado para um arquivo de texto por meio de operações de \textit{pipe} do bash.
 
-		Foram feitas 10 execuções de cada algoritmo, com os seguintes resultados de tempo:
+		Foram feitas 10 execuções de cada algoritmo, com os seguintes resultados de tempo de execução:
+
+		\clearpage
 
 		\begin{table}[htb]
+			\centering
 			\begin{tabular}{|c|c|}
 				\hline
 				Execução & Tempo de Execução\\ \hline
-				1  & 11.76803 \\ \hline
-				2  & 11.52751 \\ \hline
-				3  & 11.61155 \\ \hline
-				4  & 11.72229 \\ \hline
-				5  & 11.48184 \\ \hline
-				6  & 11.48963 \\ \hline
-				7  & 11.56019 \\ \hline
-				8  & 11.59945 \\ \hline
-				9  & 11.48201 \\ \hline
-				10 & 11.81303 \\ \hline
+				1  & 11.474648 \\ \hline
+				2  & 11.559622 \\ \hline
+				3  & 11.450598 \\ \hline
+				4  & 11.610346 \\ \hline
+				5  & 11.499296 \\ \hline
+				6  & 11.464533 \\ \hline
+				7  & 11.526878 \\ \hline
+				8  & 11.562462 \\ \hline
+				9  & 11.513563 \\ \hline
+				10 & 11.513563 \\ \hline
 			\end{tabular}
-			\caption{Mandelbrot com Open MP}
+			\caption{Mandelbrot com Open MP em \texttt{ens1}}
 		\end{table}
-		O caso de Open MP teve média de \texttt{11.605} segundos e desvio padrão de \texttt{0.122610}.
+		Média = \texttt{11.514} segundos, Desvio Padrão = \texttt{0.050804}.
 
 		\begin{table}[htb]
+			\centering
 			\begin{tabular}{|c|c|}
 				\hline
 				Execução & Tempo de Execução\\ \hline
-				1  & 11.6125 \\ \hline
-				2  & 11.6264 \\ \hline
-				3  & 11.4265 \\ \hline
-				4  & 11.8017 \\ \hline
-				5  & 11.8306 \\ \hline
-				6  & 11.5641 \\ \hline
-				7  & 11.8989 \\ \hline
-				8  & 11.8484 \\ \hline
-				9  & 11.3926 \\ \hline
-				10 & 11.5787 \\ \hline
+				1  & 11.953199 \\ \hline
+				2  & 11.525896 \\ \hline
+				3  & 11.584578 \\ \hline
+				4  & 11.575379 \\ \hline
+				5  & 11.574743 \\ \hline
+				6  & 11.569756 \\ \hline
+				7  & 11.664425 \\ \hline
+				8  & 11.585252 \\ \hline
+				9  & 11.739646 \\ \hline
+				10 & 11.77709 \\ \hline
+			\end{tabular}
+			\caption{Mandelbrot com Open MP em \texttt{ens2}}
+		\end{table}
+		Média = \texttt{11.654} segundos, Desvio Padrão = \texttt{0.132338}.
+
+		\begin{table}[htb]
+			\centering
+			\begin{tabular}{|c|c|}
+				\hline
+				Execução & Tempo de Execução\\ \hline
+				1  & 5.6473 \\ \hline
+				2  & 5.6755 \\ \hline
+				3  & 5.5199 \\ \hline
+				4  & 5.5874 \\ \hline
+				5  & 5.4372 \\ \hline
+				6  & 5.5894 \\ \hline
+				7  & 5.6809 \\ \hline
+				8  & 5.5273 \\ \hline
+				9  & 5.5947 \\ \hline
+				10 & 5.7734 \\ \hline
+			\end{tabular}
+			\caption{Mandelbrot com Open MP em \texttt{ens4}}
+		\end{table}
+		Média = \texttt{5.603} segundos, Desvio Padrão = \texttt{0.096000}.
+
+		\clearpage
+
+		\begin{table}[htb]
+			\centering
+			\begin{tabular}{|c|c|}
+				\hline
+				Execução & Tempo de Execução\\ \hline
+				1  & 4.8423 \\ \hline
+				2  & 4.9263 \\ \hline
+				3  & 4.9343 \\ \hline
+				4  & 4.8407 \\ \hline
+				5  & 4.8459 \\ \hline
+				6  & 4.8148 \\ \hline
+				7  & 4.8427 \\ \hline
+				8  & 4.8440 \\ \hline
+				9  & 4.8720 \\ \hline
+				10 & 4.8746 \\ \hline
 			\end{tabular}
 			\caption{Mandelbrot com MPI}
 		\end{table}
-		O caso de MPI teve média de \texttt{11.658} segundos e desvio padrão de \texttt{0.178552}.
+		Média = \texttt{4.863} segundos, Desvio Padrão = \texttt{0.038894}.
 
-	\clearpage
 	\section{Análise do Dados}
 
-		% Sobre os dados apresentados acima, podemos obter as seguintes informações, onde o tempo é medido em segundos:
-
-		% \begin{table}[htb]
-		% 	\begin{tabular}{|c|c|c|}
-		% 		\hline
-		% 		& Média do Tempo de Execução & Desvio Padrão\\ \hline
-		% 		1 Thread  & 64.777607 & 0.16630814071409003 \\ \hline
-		% 		2 Threads & 32.897305 & 0.16732219181035715 \\ \hline
-		% 		3 Threads & 40.482982 & 0.04887138853948963 \\ \hline
-		% 		4 Threads & 27.345909 & 0.10432392396335134 \\ \hline
-		% 		5 Threads & 27.095582 & 0.05337008271390313 \\ \hline
-		% 		6 Threads & 20.748611 & 0.04259400204254115 \\ \hline
-		% 		7 Threads & 19.685831 & 0.03082819193170025 \\ \hline
-		% 		8 Threads & 16.775065 & 0.02461598543404037 \\ \hline
-		% 	\end{tabular}
-		% 	\caption{Médias e desvio padrão do algoritmo de Mandelbrot com \textit{pthreads}}
-		% \end{table}
-
-		% \begin{table}[htb]
-		% 	\begin{tabular}{|c|c|c|}
-		% 		\hline
-		% 		& Média do Tempo de Execução & Desvio Padrão \\ \hline
-		% 		1 Thread  & 9.808757 & 0.01430773997993158 \\ \hline
-		% 		2 Threads & 4.975305 & 0.02110255184674231 \\ \hline
-		% 		3 Threads & 6.125578 & 0.01186485735270328 \\ \hline
-		% 		4 Threads & 4.136371 & 0.01319911566903059 \\ \hline
-		% 		5 Threads & 4.088702 & 0.00786163087406173 \\ \hline
-		% 		6 Threads & 3.127701 & 0.00801616623524678 \\ \hline
-		% 		7 Threads & 3.027129 & 0.01203302441893417 \\ \hline
-		% 		8 Threads & 2.565438 & 0.00671966070572017 \\ \hline
-		% 	\end{tabular}
-		% 	\caption{Médias e desvio padrão do algoritmo de Mandelbrot com \textit{schedule} estático}
-		% \end{table}
-
-		% \begin{table}[htb]
-		% 	\begin{tabular}{|c|c|c|}
-		% 		\hline
-		% 		& Média do Tempo de Execução & Desvio Padrão \\ \hline
-		% 		1 Thread  & 9.818728 & 0.01456274836698083 \\ \hline
-		% 		2 Threads & 4.976967 & 0.01513441336087318 \\ \hline
-		% 		3 Threads & 6.124495 & 0.01606536734026911 \\ \hline
-		% 		4 Threads & 4.130273 & 0.01311360790256527 \\ \hline
-		% 		5 Threads & 4.095747 & 0.00969797579108356 \\ \hline
-		% 		6 Threads & 3.124399 & 0.01151921626384943 \\ \hline
-		% 		7 Threads & 3.028609 & 0.00966705286584861 \\ \hline
-		% 		8 Threads & 2.559377 & 0.00553523019695965 \\ \hline
-		% 	\end{tabular}
-		% 	\caption{Médias e desvio padrão do algoritmo de Mandelbrot com \textit{schedule} dinâmico}
-		% \end{table}
-
-		% \begin{table}[htb]
-		% 	\begin{tabular}{|c|c|c|}
-		% 		\hline
-		% 		& Média do Tempo de Execução & Desvio Padrão \\ \hline
-		% 		1 Thread  & 9.812667 & 0.01803282319056608 \\ \hline
-		% 		2 Threads & 4.974860 & 0.014412573985547702 \\ \hline
-		% 		3 Threads & 6.127850 & 0.010964194452854417 \\ \hline
-		% 		4 Threads & 4.133592 & 0.01210745298474367 \\ \hline
-		% 		5 Threads & 4.092610 & 0.008310102285772432 \\ \hline
-		% 		6 Threads & 3.126775 & 0.00917122098983795 \\ \hline
-		% 		7 Threads & 3.024289 & 0.009009298221528924 \\ \hline
-		% 		8 Threads & 2.565941 & 0.006704982310027237 \\ \hline
-		% 	\end{tabular}
-		% 	\caption{Médias e desvio padrão do algoritmo de Mandelbrot com \textit{schedule} guiado}
-		% \end{table}
+		Analisando os resultados de tempo de execução e o gráfico abaixo podemos observar que o teste com MPI
+		teve desempenho consideravelmente superior que os testes com Open MP, porém a diferença não foi tão
+		grande quando comparada com o teste em Open MP rodado no servidor \texttt{ens4}, que tem \textit{hardware}
+		consideravelmente melhor que os outros dois servidores.
 		
-		% É evidente que o aumento de threads diminui significativamente o tempo de execução dos algoritmos sem causar 
-		% aumento significativo no desvio padrão, assim como que a utilização do Open MP, mesmo nos casos com apenas 1 thread, significativamente diminui o tempo
-		% de execução do algoritmo, como pode ser observado no gráfico abaixo, onde as execuções [0,\ldots,9] tem 1 thread, as execuções [10,\ldots,19] tem duas threads
-		% e assim por diante:
+		\includegraphics[scale=.7]{Tempo.png}
 		
-		% % \includegraphics[scale=.7]{TempoExecução.png}
+		Podemos então concluir que MPI consegue ter um desempenho melhor em situações onde há diversos computadores
+		com \textit{hardware} de baixo desempenho, porém não consegue um desempenho ideal em situações onde há
+		computadores com \textit{hardware} de alto e baixo desempenho misturados numa rede. 
 		
-		% Ademais, os seguinte gráficos de aceleração e eficiência foram elaborados:
-		
-		% % \includegraphics[scale=.7]{Aceleração.png}
-		% \clearpage
+		Isso é evidente comparando os resultados do caso de Open MP em \texttt{ens4} e o caso de MPI. Apesar do algoritmo
+		rodando MPI estar rodando 4 processos em 3 computadores distintos, ele teve um tempo médio de execução apenas
+		\texttt{0.8} segundos menor que o caso do Open MP naquele servidor, o que indica que o MPI não conseguiu se aproveitar
+		totalmente dos recursos de \texttt{ens4}.
 
-		% É possível observar que o algoritmo de Mandelbrot com \textit{pthreads} não teve bom desempenho ao ser paralelizado, apesar de 
-		% ter um aumento de performance significativo em uma execução com 8 threads se comparada com a execução sequencial, 
-		% esse aumento não é tão grande se comparado com uma execução com apenas 6 threads. Mais ainda, o desempenho não é consistente, isto é,
-		% houveram situações onde execuções com menos threads tiveram desempenho melhor que execuções com mais threads.
-
-		% Isso também ocorre, porém de maneira menos significativa nos casos de uso do Open MP, onde, apesar do tempo absoluto ser significativamente
-		% menor que nos casos de \textit{pthreads}, as taxas de aceleração se mantiveram as mesmas.
-
-		% % \includegraphics[scale=.7]{Eficiência.png}
-		
-		% O algoritmo de Mandelbrot com \textit{pthreads} novamente teve um desempenho ruim. O gráfico torna evidente
-		% que este algoritmo, na sua implementação testada, não lida bem com paralelização além de duas threads.
-		% A baixa eficiência do algoritmo nos casos com mais de duas threads pode ser interpretada como uma indicação que
-		% a implementação de paralelismo testada não é a ideal e pode ser melhorada.
-
-		% O mesmo pode ser dito para os casos de uso de Open MP, e específico a estes, o uso de diferentes \textit{schedules} de paralelismo não
-		% tiverem impacto significativo nas taxas de aceleração ou eficiência do algoritmo.
-
+		Ao mesmo tempo, o teste em Open MP nesse servidor poderia ter desempenho melhor, já que apenas 4 das 8 threads disponíveis
+		foram utilizadas. 
 \end{document}

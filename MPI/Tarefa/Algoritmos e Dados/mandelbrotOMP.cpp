@@ -55,7 +55,7 @@ int main(){
 	}
 	end_time = wtime();
 
-	printf("%d %f\n", thread_amount, end_time - start_time);
+	printf("%f\n", end_time - start_time);
 	fflush(stdout);
 	// for(int r = 0; r < max_row; ++r){
 	// 	for(int c = 0; c < max_column; ++c)

@@ -10,27 +10,38 @@ def parse():
 
     # criando um dict pra cada conjunto de resultados
     # dict é indexado pela qtd de threads que executaram
-    mandelbrotOMP  = dict()
-    mandelbrotMPI = dict()
+    mandelbrotMPI  = dict()
+    mandelbrotOMP1 = dict()
+    mandelbrotOMP2 = dict()
+    mandelbrotOMP4 = dict()
     for i in range(10):
-        mandelbrotOMP[i] = []
-        mandelbrotMPI[i] = []
+        mandelbrotMPI[i]  = []
+        mandelbrotOMP1[i] = []
+        mandelbrotOMP2[i] = []
+        mandelbrotOMP4[i] = []
 
     # extraindo os resultados
     for i in range(10):
-        with open(path + "mandelbrotOMP"+str(i)+".txt",'r') as f:
-            time = f.readline()
-            time = time[:-2]
-            mandelbrotOMP[i].append(float(time))
         with open(path + "mandelbrotMPI"+str(i)+".txt",'r') as f:
             time = f.readline()
             mandelbrotMPI[i].append(float(time))
+        with open(path + "mandelbrotOMP-ens1-"+str(i)+".txt",'r') as f:
+            time = f.readline()
+            mandelbrotOMP1[i].append(float(time))
+        with open(path + "mandelbrotOMP-ens2-"+str(i)+".txt",'r') as f:
+            time = f.readline()
+            mandelbrotOMP2[i].append(float(time))
+        with open(path + "mandelbrotOMP-ens4-"+str(i)+".txt",'r') as f:
+            time = f.readline()
+            mandelbrotOMP4[i].append(float(time))
 
-    return (mandelbrotOMP, mandelbrotMPI)
+    return (mandelbrotMPI, mandelbrotOMP1, mandelbrotOMP2, mandelbrotOMP4)
 
-def plot_times(OMP:list, MPI:list):
+def plot_times(OMP1:list, OMP2:list, OMP4:list, MPI:list):
 
-    pyplot.plot(list(range(0,10)),OMP,label="OMP")
+    pyplot.plot(list(range(0,10)),OMP1,label="OMP ens1")
+    pyplot.plot(list(range(0,10)),OMP2,label="OMP ens2")
+    pyplot.plot(list(range(0,10)),OMP4,label="OMP ens4")
     pyplot.plot(list(range(0,10)),MPI,label="MPI")
 
     pyplot.xlabel("Execução")
@@ -133,22 +144,46 @@ def flatten(l):
 def main():
 
     # obtendo os valores de tempo/thread
-    OMP, MPI = parse()
+    MPI, OMP1, OMP2, OMP4 = parse()
 
     # calculando as médias
     # fmean é uma função padrão que calcula a média em uma lista de floats
-    mediaOMP   = fmean(flatten(list(OMP.values())))
-    desviosOMP = stdev(flatten(list(OMP.values())))
-
     mediaMPI   = fmean(flatten(list(MPI.values())))
     desviosMPI = stdev(flatten(list(MPI.values())))
 
-    print("Tempos OMP:")
-    for v in flatten(list(OMP.values())):
+    mediaOMP1   = fmean(flatten(list(OMP1.values())))
+    desviosOMP1 = stdev(flatten(list(OMP1.values())))
+
+    mediaOMP2   = fmean(flatten(list(OMP2.values())))
+    desviosOMP2 = stdev(flatten(list(OMP2.values())))
+
+    mediaOMP4   = fmean(flatten(list(OMP4.values())))
+    desviosOMP4 = stdev(flatten(list(OMP4.values())))
+
+    print("Tempos OMP na ens1:")
+    for v in flatten(list(OMP1.values())):
         print(v, end=" ")
     print()
-    print("Média OMP =", mediaOMP)
-    print("Desvio Padrão OMP =", desviosOMP)
+    print("Média =", mediaOMP1)
+    print("Desvio Padrão =", desviosOMP1)
+
+    print()
+
+    print("Tempos OMP na ens2:")
+    for v in flatten(list(OMP2.values())):
+        print(v, end=" ")
+    print()
+    print("Média =", mediaOMP2)
+    print("Desvio Padrão =", desviosOMP2)
+
+    print()
+
+    print("Tempos OMP na ens4:")
+    for v in flatten(list(OMP4.values())):
+        print(v, end=" ")
+    print()
+    print("Média =", mediaOMP4)
+    print("Desvio Padrão =", desviosOMP4)
 
     print()
 
@@ -163,7 +198,7 @@ def main():
     # exit()
 
     # plotando os gráficos
-    plot_times(flatten(list(OMP.values())), flatten(list(MPI.values())))
+    plot_times(flatten(list(OMP1.values())), flatten(list(OMP2.values())), flatten(list(OMP4.values())), flatten(list(MPI.values())))
 
     # exportando para csv
     # descomente a linha abaixo para gerar um .csv com os dados das execuções
