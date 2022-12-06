@@ -5,11 +5,15 @@
 #include<iostream>
 #include<string>
 
-extern int TOTALBITS; 
+extern int TOTALBITS;
 // "constante" que determina o tamanho de bits para serem usados durante a execução
 // não é do tipo const pq é necessário definir esse valor dentro da main
 extern std::string FILENAME; // definindo o nome do arquivo como uma constante global
 // pra facilitar a vida
+
+extern int THREADS; // constante que me indica quantas threads estarei usando
+
+extern int DONE;
 
 typedef struct
 {

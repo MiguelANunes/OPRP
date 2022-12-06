@@ -22,7 +22,7 @@ link: main
 	${CC} -o main chaves.o cripto.o bruta.o main.o -lgmpxx -lgmp
 
 link_teste: tester
-	${CC} -fopenmp -Wall -o tester chaves.o bruta.o tester.o -lgmpxx -lgmp
+	mpic++ -fopenmp -Wall -o tester chaves.o bruta.o tester.o -lgmpxx -lgmp
 
 link_keys: keygen chaves
 	${CC} -o keygen chaves.o keygen.o -lgmpxx -lgmp
@@ -31,7 +31,7 @@ main: chaves cripto bruta main.cpp
 	${CC} ${FLAGS} main.cpp
 
 tester: chaves bruta tester.cpp
-	${CC} ${FLAGS} -fopenmp tester.cpp
+	mpic++ ${FLAGS} -fopenmp tester.cpp
 
 keygen:
 	${CC} ${FLAGS} keygen.cpp
@@ -43,8 +43,8 @@ cripto:
 	${CC} ${FLAGS} cripto.cpp 
 
 bruta:
-	${CC} ${FLAGS} bruta.cpp
+	mpic++ ${FLAGS} bruta.cpp
 
 clean:
-	rm *.o main keygen tester CRIPTO* DECRIPTO* keys/* tempos/*
+	rm *.o keygen tester keys/*
  

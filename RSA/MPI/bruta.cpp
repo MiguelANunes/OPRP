@@ -1,6 +1,10 @@
 #include"bruta.h"
 #include"chaves.h"
+#include<omp.h>
+#include<mpi.h>
 // fatora por força bruta as chaves
+
+int DONE = 0;
 
 void forcabruta_quadrado(mpz_t Fator1, mpz_t Fator2, mpz_t NFatorar){ 
 	// recebendo o N da chave pública, fatora ele nos seus fatores primos P e Q
@@ -21,9 +25,11 @@ void forcabruta_quadrado(mpz_t Fator1, mpz_t Fator2, mpz_t NFatorar){
     }
 }
 
-void forcabruta_paralelo(block * bloco, mpz_t N){ 
+int forcabruta_paralelo(block * bloco, mpz_t N, int rank){ 
 	// recebendo o N da chave pública, fatora ele nos seus fatores primos P e Q
 	// pelo método bobinho de verificar os divisores de bloco->lower até bloco->upper
+
+	// cout << "Sou a thread" << omp_get_thread_num() << endl;
 
     mpz_t FatorTestado, Upper, aux;
 	mpz_inits(FatorTestado, Upper, aux, NULL);
@@ -35,7 +41,16 @@ void forcabruta_paralelo(block * bloco, mpz_t N){
 			bloco->valorP = string(mpz_get_str(NULL, 10, FatorTestado));
 			mpz_divexact(aux, N, FatorTestado);
 			bloco->valorQ = string(mpz_get_str(NULL, 10, aux));
-			return;
+			DONE = 1;
+			MPI_Bcast(&DONE, 1, MPI_INT, rank, MPI_COMM_WORLD);
+			// comunica todos os processos que terminou
+			return 1;
+		}
+		if(DONE){
+			MPI_Bcast(&DONE, 1, MPI_INT, rank, MPI_COMM_WORLD);
+			// comunica todos os processos que terminou
+			return 1;
 		}
     }
+	return 0;
 }

@@ -16,16 +16,19 @@ for i in $(seq 33 128); do # Gerando chaves
     ./keygen $i
 done
 
-for i in $(seq 8 2 32); do # Teste Sequencial
+export OMP_NUM_THREADS=8
+THREADS=`echo $OMP_NUM_THREADS`
+
+for i in $(seq 8 2 32); do
     printf "\n"
     echo "$i Bits"
-    ./tester $i 
+    mpirun -np 8 --hostfile hosts.txt tester $i $THREADS
 done
 
-for i in $(seq 33 128); do # Teste Sequencial
+for i in $(seq 33 128); do
     printf "\n"
     echo "$i Bits"
-    ./tester $i 
+    mpirun -np 8 --hostfile hosts.txt tester $i $THREADS
 done
 
 make clean

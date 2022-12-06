@@ -5,15 +5,17 @@
 #include<time.h>
 #include<fstream>
 #include<omp.h>
+#include<mpi.h>
 #include<string>
 
 using namespace std;
+int THREADS;
+// int DONE;
 
-vector<block> generate_input(int TOTALBITS, mpz_t N){
+vector<block> generate_input(int TOTALBITS, mpz_t N, int rank){
 	// função que gera um array de blocos para serem fatorados
 
-	int threads = omp_get_num_threads();
-	int total_blocos = threads * 8;
+	int total_blocos = THREADS * 8;
 	block bloco;
 	vector<block> blocos;
 
@@ -40,7 +42,16 @@ vector<block> generate_input(int TOTALBITS, mpz_t N){
 
 	// primeiro bloco tem lower = 3, upper = sqrt(N)/total_blocos
 	// segundo bloco tem lower = (sqrt(N)/total_blocos) + 1, upper = 2*(sqrt(N)/total_blocos)
+
+	int alternate = rank;
+	// variável que define se vai ou não inserir no conjunto de dados de um dado processo
+	// alterna a cada loop, mas inicia diferente
+
 	for(int i = 1; i < total_blocos; i++){
+		if(!alternate){
+			alternate = 1; // flip
+			continue;
+		}
 		mpz_cdiv_q(lower, sqrt, total_blocos_mpz); // o limite inferior é o último limite superior arredondado para cima
 		mpz_sub_ui(total_blocos_mpz, total_blocos_mpz, 1);
 		mpz_fdiv_q(upper, sqrt, total_blocos_mpz); // o limite superior é a divisão da raiz de N pelo total de blocos restante
@@ -50,6 +61,8 @@ vector<block> generate_input(int TOTALBITS, mpz_t N){
 		bloco.valorP = "0";									 // ^ construtor de strings de C++
 		bloco.valorQ = "0";
 		blocos.push_back(bloco);
+
+		alternate = 0; // flop
 	}
 
 	mpz_clears(lower, upper, sqrt, total_blocos_mpz, NULL);
@@ -57,12 +70,17 @@ vector<block> generate_input(int TOTALBITS, mpz_t N){
 	return blocos;
 }
 
-int main(int argc, char const *argv[]){
+int main(int argc, char *argv[]){
 
 	mpz_t E,N,D,P1,Q1;
+	int size, rank;
 	TOTALBITS = -1;
+	THREADS = -1;
 
 	TOTALBITS = atoi(argv[1]);
+	THREADS   = atoi(argv[2]);
+	omp_set_num_threads(THREADS); // definindo o número de threads a serem usadas
+	omp_set_dynamic(0); // desabilitando scheduling dinâmico, garantindo que usaram somente tantas threads quanto eu falei
 
 	// Chaves
 	mpz_init2(E,TOTALBITS);
@@ -93,46 +111,60 @@ int main(int argc, char const *argv[]){
 	privada >> aux;
 	mpz_set_str(D,aux.c_str(),10); // opcional
 
-	vector<block> dados = generate_input(TOTALBITS, N);
+	// Inicializando o MPI
+	MPI_Init(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+	vector<block> dados = generate_input(TOTALBITS, N, rank);
+
+
+	// cout << "Total de dados " << dados.size() << endl;
 
 	// int count = 0;
 	// for(auto & bloco: dados){
-	// 	cout << "Bloco " << count << endl;
+	// 	cout << "Bloco " << count << " Processo " << rank << endl;
 	// 	cout << "\tLower:" << bloco.lower << endl;
 	// 	cout << "\tUpper:" << bloco.upper << endl;
 	// 	cout << "\tP:" << bloco.valorP << endl;
 	// 	cout << "\tQ:" << bloco.valorQ << endl;
 	// 	count++;
 	// }
-
-	int count = 0;
+	
 	clock_t inicio, termino;
-	for(auto & bloco: dados){
-		cout << "Testando bloco " << count << endl;
-		
+
+	if(rank == 0)
 		inicio = clock();
-		forcabruta_paralelo(&bloco,N); // pasando o endereço do bloco para poder editar ele dentro da função
+	#pragma omp parallel
+	{// REGIÃO PARALELA
+		#pragma omp single
+		{// criando tasks
+			for(auto & bloco: dados){
+				#pragma omp task
+				{// cada execução da função é uma task
+					forcabruta_paralelo(&bloco,N, rank);
+				}
+			}
+		}// fim do single, executando as tasks
+	}// FIM DA REGIÃO PARALELA
+
+	if(rank == 0){
 		termino = clock();
 
 		double decorrido = ((double) (termino - inicio))/CLOCKS_PER_SEC;
+
+		cout << "Terminei de executar" << endl;
 		cout << "Tempo Decorrido:" << endl;
 		cout << decorrido << endl;
+		tempos << decorrido << endl;
 
-		cout << "Divisores estavam nesse bloco?" << endl;
-		if(bloco.valorP != "0"){
-			cout << "\tSim!" << endl << "\tDivisores de N:" << endl;
-			cout << "\t\tP = " << bloco.valorP << "\n\t\tQ = " << bloco.valorQ << endl;
-		}else{
-			cout << "\tNão!" << endl;
-		}
+		tempos.close();
+		publica.close();
+		privada.close();
+		valorN.close();
 	}
 
-	// tempos << decorrido << endl;
-	// tempos.close();
-
-	publica.close();
-	privada.close();
-	valorN.close();
+	MPI_Finalize();
 
     return 0;
 }
