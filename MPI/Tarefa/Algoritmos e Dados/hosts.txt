@@ -1,3 +1,1 @@
-Curry slots=1
 Howard slots=1
-Lambek slots=1

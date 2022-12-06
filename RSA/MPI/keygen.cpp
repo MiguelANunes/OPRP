@@ -47,12 +47,5 @@ int main(int argc, char const *argv[]){
 	valorN << Aux2 << endl;
 	valorN.close();
 
-	// cout << "fatorando" << endl;
-	// auto inicio = chrono::high_resolution_clock::now();
-	// forcabruta_quadrado(P1,Q1,N);
-	// auto termino = chrono::high_resolution_clock::now();
-	// chrono::duration<double> decorrido = termino - inicio;
-	// output << decorrido.count() << endl;
-
     return 0;
 }

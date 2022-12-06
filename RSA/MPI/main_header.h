@@ -10,3 +10,11 @@ extern int TOTALBITS;
 // não é do tipo const pq é necessário definir esse valor dentro da main
 extern std::string FILENAME; // definindo o nome do arquivo como uma constante global
 // pra facilitar a vida
+
+typedef struct
+{
+	std::string lower;
+	std::string upper;
+	std::string valorP;
+	std::string valorQ;
+}block;

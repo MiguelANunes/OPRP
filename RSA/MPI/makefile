@@ -1,7 +1,7 @@
 CC = g++   # compilador 
 FLAGS = -O3 -Wall -c
 
-all: link link_keys link_teste
+all: link_keys link_teste
 
 run: 
 	./main $(BITS) $(ARQ) 
@@ -22,7 +22,7 @@ link: main
 	${CC} -o main chaves.o cripto.o bruta.o main.o -lgmpxx -lgmp
 
 link_teste: tester
-	${CC} -o tester chaves.o bruta.o tester.o -lgmpxx -lgmp
+	${CC} -fopenmp -Wall -o tester chaves.o bruta.o tester.o -lgmpxx -lgmp
 
 link_keys: keygen chaves
 	${CC} -o keygen chaves.o keygen.o -lgmpxx -lgmp
@@ -31,7 +31,7 @@ main: chaves cripto bruta main.cpp
 	${CC} ${FLAGS} main.cpp
 
 tester: chaves bruta tester.cpp
-	${CC} ${FLAGS} tester.cpp
+	${CC} ${FLAGS} -fopenmp tester.cpp
 
 keygen:
 	${CC} ${FLAGS} keygen.cpp
