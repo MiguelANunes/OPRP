@@ -1,7 +1,6 @@
 from statistics import fmean, stdev
 from matplotlib import pyplot
 import os
-import csv
 
 # Sessão Comparável: 2 até 39 bits
 # Isto é, tanto paralelo quanto sequencial fizeram até ai
@@ -19,7 +18,7 @@ def parse_sequencial():
     teste4 = dict()
     teste5 = dict()
 
-    for i in range(8,34,2):
+    for i in range(8,32,2):
         teste1[i] = []
         teste2[i] = []
         teste3[i] = []
@@ -34,55 +33,45 @@ def parse_sequencial():
         teste5[i] = []
 
     teste3[40] = []
-    teste4[40] = []
-    teste4[41] = []
     
     # extraindo os resultados
-    for i in range(8,34,2):
-        with open(path + f"teste1/tempos-{i}-bits.txt",'r') as f:
+    for i in range(8,32,2):
+        with open(path + f"teste1/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste1[i].append(float(time))
-        with open(path + f"teste2/tempos-{i}-bits.txt",'r') as f:
+            teste1[i] = float(time)
+        with open(path + f"teste2/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste2[i].append(float(time))
-        with open(path + f"teste3/tempos-{i}-bits.txt",'r') as f:
+            teste2[i] = float(time)
+        with open(path + f"teste3/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste3[i].append(float(time))
-        with open(path + f"teste4/tempos-{i}-bits.txt",'r') as f:
+            teste3[i] = float(time)
+        with open(path + f"teste4/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste4[i].append(float(time))
-        with open(path + f"teste5/tempos-{i}-bits.txt",'r') as f:
+            teste4[i] = float(time)
+        with open(path + f"teste5/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste5[i].append(float(time))
+            teste5[i] = float(time)
     
     for i in range(32,40):
-        with open(path + f"teste1/tempos-{i}-bits.txt",'r') as f:
+        with open(path + f"teste1/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste1[i].append(float(time))
-        with open(path + f"teste2/tempos-{i}-bits.txt",'r') as f:
+            teste1[i] = float(time)
+        with open(path + f"teste2/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste2[i].append(float(time))
-        with open(path + f"teste3/tempos-{i}-bits.txt",'r') as f:
+            teste2[i] = float(time)
+        with open(path + f"teste3/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste3[i].append(float(time))
-        with open(path + f"teste4/tempos-{i}-bits.txt",'r') as f:
+            teste3[i] = float(time)
+        with open(path + f"teste4/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste4[i].append(float(time))
-        with open(path + f"teste5/tempos-{i}-bits.txt",'r') as f:
+            teste4[i] = float(time)
+        with open(path + f"teste5/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste5[i].append(float(time))
+            teste5[i] = float(time)
 
-    with open(path + f"teste3/tempos-40-bits.txt",'r') as f:
+    with open(path + f"teste3/tempo-40-bits.txt",'r') as f:
         time = f.readline()
-        teste3[40].append(float(time))
-
-    with open(path + f"teste4/tempos-40-bits.txt",'r') as f:
-        time = f.readline()
-        teste4[40].append(float(time))
-
-    with open(path + f"teste4/tempos-41-bits.txt",'r') as f:
-        time = f.readline()
-        teste4[41].append(float(time))
+        teste3[40] = float(time)
 
     return (teste1,teste2,teste3,teste4,teste5)
 
@@ -99,7 +88,7 @@ def parse_paralelo():
     teste4 = dict()
     teste5 = dict()
 
-    for i in range(8,34,2):
+    for i in range(8,32,2):
         teste1[i] = []
         teste2[i] = []
         teste3[i] = []
@@ -121,172 +110,72 @@ def parse_paralelo():
     teste3[46] = []
 
     # extraindo os resultados
-    for i in range(8,34,2):
-        with open(path + f"teste1/tempos-{i}-bits.txt",'r') as f:
+    for i in range(8,32,2):
+        with open(path + f"teste1/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste1[i].append(float(time))
-        with open(path + f"teste2/tempos-{i}-bits.txt",'r') as f:
+            teste1[i] = float(time)
+        with open(path + f"teste2/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste2[i].append(float(time))
-        with open(path + f"teste3/tempos-{i}-bits.txt",'r') as f:
+            teste2[i] = float(time)
+        with open(path + f"teste3/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste3[i].append(float(time))
-        with open(path + f"teste4/tempos-{i}-bits.txt",'r') as f:
+            teste3[i] = float(time)
+        with open(path + f"teste4/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste4[i].append(float(time))
-        with open(path + f"teste5/tempos-{i}-bits.txt",'r') as f:
+            teste4[i] = float(time)
+        with open(path + f"teste5/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste5[i].append(float(time))
+            teste5[i] = float(time)
     
     for i in range(32,46):
-        with open(path + f"teste1/tempos-{i}-bits.txt",'r') as f:
+        with open(path + f"teste1/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste1[i].append(float(time))
-        with open(path + f"teste2/tempos-{i}-bits.txt",'r') as f:
+            teste1[i] = float(time)
+        with open(path + f"teste2/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste2[i].append(float(time))
-        with open(path + f"teste3/tempos-{i}-bits.txt",'r') as f:
+            teste2[i] = float(time)
+        with open(path + f"teste3/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste3[i].append(float(time))
-        with open(path + f"teste4/tempos-{i}-bits.txt",'r') as f:
+            teste3[i] = float(time)
+        with open(path + f"teste4/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste4[i].append(float(time))
-        with open(path + f"teste5/tempos-{i}-bits.txt",'r') as f:
+            teste4[i] = float(time)
+        with open(path + f"teste5/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste5[i].append(float(time))
+            teste5[i] = float(time)
 
     for i in range(46,51):
-        with open(path + f"teste1/tempos-{i}-bits.txt",'r') as f:
+        with open(path + f"teste1/tempo-{i}-bits.txt",'r') as f:
             time = f.readline()
-            teste1[i].append(float(time))
+            teste1[i] = float(time)
 
-    with open(path + f"teste2/tempos-46-bits.txt",'r') as f:
+    with open(path + f"teste2/tempo-46-bits.txt",'r') as f:
         time = f.readline()
-        teste2[46].append(float(time))
+        teste2[46] = float(time)
 
-    with open(path + f"teste2/tempos-47-bits.txt",'r') as f:
+    with open(path + f"teste2/tempo-47-bits.txt",'r') as f:
         time = f.readline()
-        teste2[47].append(float(time))
+        teste2[47] = float(time)
 
-    with open(path + f"teste3/tempos-46-bits.txt",'r') as f:
+    with open(path + f"teste3/tempo-46-bits.txt",'r') as f:
         time = f.readline()
-        teste3[46].append(float(time))
+        teste3[46] = float(time)
 
     return (teste1,teste2,teste3,teste4,teste5)
 
-def plot_times(OMP1:list, OMP2:list, OMP4:list, MPI:list):
+def plot_times(tempos:list, bits:list, nome:str, cor:str=None):
 
-    pyplot.plot(list(range(0,10)),OMP1,label="OMP ens1")
-    pyplot.plot(list(range(0,10)),OMP2,label="OMP ens2")
-    pyplot.plot(list(range(0,10)),OMP4,label="OMP ens4")
-    pyplot.plot(list(range(0,10)),MPI,label="MPI")
-
-    pyplot.xlabel("Execução")
-    pyplot.ylabel("Tempo (segundos)")
-
-    pyplot.title("Tempo de Execução")
-    pyplot.legend()
-
-    pyplot.legend(loc='best')
-    pyplot.show()
-    pyplot.close()
+    pyplot.plot(bits,tempos,label=nome,color=cor)
 
     return
-
-def plot_aceleracao(speedUpOMP:list, speedUpDynamic:list, speedUpGuided:list, speedUpPThreads:list):
-    """
-    Função que plota o gráfico da aceleração das execuções dos algoritmos
-    """
-
-    pyplot.plot(list(range(1,9)),speedUpOMP,label="OMP OMP")
-    pyplot.plot(list(range(1,9)),speedUpGuided,label="OMP Guided")
-    pyplot.plot(list(range(1,9)),speedUpDynamic,label="OMP Dynamic")
-    pyplot.plot(list(range(1,9)),speedUpPThreads,label="Pthreads")
-    pyplot.plot(list(range(1,9)),list(range(1,9)),label="Ideal")
-
-    pyplot.xlabel("Threads")
-    pyplot.ylabel("Speed Up")
-
-    pyplot.title("Aceleração")
-    pyplot.legend()
-
-    pyplot.legend(loc='best')
-    pyplot.show()
-    pyplot.close()
-
-    return
-
-def plot_eficiencia(eficienciaOMP:list, eficienciaDynamic:list, eficienciaGuided:list, eficienciaPThreads:list):
-    """
-    Função que plota o gráfico da eficiência das execuções dos algoritmos
-    """
-
-    pyplot.plot(list(range(1,9)),eficienciaOMP,label="OMP OMP")
-    pyplot.plot(list(range(1,9)),eficienciaGuided,label="OMP Guided")
-    pyplot.plot(list(range(1,9)),eficienciaDynamic,label="OMP Dynamic")
-    pyplot.plot(list(range(1,9)),eficienciaPThreads,label="Pthreads")
-    pyplot.plot(list(range(1,9)),list(range(1,9)),label="Ideal")
-
-    pyplot.xlabel("Threads")
-    pyplot.ylabel("Eficiência")
-
-    pyplot.title("Eficiência")
-    pyplot.legend()
-
-    pyplot.legend(loc='best')
-    pyplot.show()
-    pyplot.close()
-
-# def to_csv(OMP, dynamic, guided):
-#     """
-#     Exporta os dados da execução para um arquivo .csv
-#     """
-
-#     campos = ["Execução "+str(n) for n in range(10)]
-#     campos.insert(0,"Threads")
-
-#     with open("OMP.csv", 'w') as f:
-#         writer = csv.writer(f)
-#         thread = 1
-#         writer.writerow(campos)
-#         for l in OMP:
-#             temp = [x for x in l]
-#             temp.insert(0, thread)
-#             writer.writerow(temp)
-#             thread += 1
-
-#     with open("dynamic.csv", 'w') as f:
-#         writer = csv.writer(f)
-#         thread = 1
-#         writer.writerow(campos)
-#         for l in dynamic:
-#             temp = [x for x in l]
-#             temp.insert(0, thread)
-#             writer.writerow(temp)
-#             thread += 1
-    
-#     with open("guided.csv", 'w') as f:
-#         writer = csv.writer(f)
-#         thread = 1
-#         writer.writerow(campos)
-#         for l in guided:
-#             temp = [x for x in l]
-#             temp.insert(0, thread)
-#             writer.writerow(temp)
-#             thread += 1
 
 def flatten(l):
     return [item for sublist in l for item in sublist]
 
-def comparavel(l1, l2, l3, l4, l5):
-    # retornando a sessão comparável das listas de tempos
-    # 2 - 32 step=2, 32 - 39 step = 1 tem 21 itens
-    return (x[:21] for x in (l1,l2,l3,l4,l5))
-
-def comparavel1(data:dict):
+def comparavel(data:dict):
     newData = dict()
 
-    limite = 21
+    limite = 20
     for k in data:
         newData[k] = data[k]
         limite -= 1
@@ -299,6 +188,52 @@ def media_desvio(dados:list):
     desvio = stdev(dados)
     return (media, desvio)
 
+def medias_desvios(dados:dict):
+    medias  = dict()
+    desvios = dict()
+
+    for bits in dados:
+        medias[bits]  = fmean(dados[bits])
+        desvios[bits] = stdev(dados[bits])
+
+    return (medias, desvios)
+
+def juntar(l1:dict, l2:dict, l3:dict, l4:dict, l5:dict):
+    tempo = dict()
+
+    for i in range(8,32,2):
+        tempo[i] = []
+        tempo[i].append(l1[i])
+        tempo[i].append(l2[i])
+        tempo[i].append(l3[i])
+        tempo[i].append(l4[i])
+        tempo[i].append(l5[i])
+
+    for i in range(32,40):
+        tempo[i] = []
+        tempo[i].append(l1[i])
+        tempo[i].append(l2[i])
+        tempo[i].append(l3[i])
+        tempo[i].append(l4[i])
+        tempo[i].append(l5[i])
+
+    return tempo
+
+def speed_up(mediaSeq:dict, mediaPar:dict):
+    SpeedUp = dict()
+
+    for bits in mediaSeq:
+        SpeedUp[bits] = mediaSeq[bits]/mediaPar[bits]
+
+    return SpeedUp
+
+def eficiencia(speedup:dict):
+    eficiencia = dict()
+
+    for bits in speedup:
+        eficiencia[bits] = speedup[bits]/64 # 8 processos com 8 threads
+    return eficiencia
+
 def main():
 
     # obtendo os valores de tempo/thread
@@ -306,82 +241,89 @@ def main():
     Par1, Par2, Par3, Par4, Par5 = parse_paralelo()
 
     # Sessões Comparáveis:
-    CompS1, CompS2, CompS3, CompS4, CompS5 = comparavel(Seq1, Seq2, Seq3, Seq4, Seq5)
-    CompP1, CompP2, CompP3, CompP4, CompP5 = comparavel(Par1, Par2, Par3, Par4, Par5)
+    CompS1 = comparavel(Seq1) 
+    CompS2 = comparavel(Seq2)
+    CompS3 = comparavel(Seq3)
+    CompS4 = comparavel(Seq4) 
+    CompS5 = comparavel(Seq5)
+    CompP1 = comparavel(Par1) 
+    CompP2 = comparavel(Par2)
+    CompP3 = comparavel(Par3)
+    CompP4 = comparavel(Par4) 
+    CompP5 = comparavel(Par5)
 
-    # ERRADO: DEVERIA ESTAR CALCULANDO AS MÉDIAS/DESVIOS DOS CASOS COM MESMO TOTAL DE BITS
-    # OU SEJA, MÉDIA DO TESTE1/2/3/4/5 P/ 2 BITS, DAÍ MEDIA DO TESTE1/2/3/4/5 P/ 4 BITS, ...
-    # COMPARAR ISSO PARA O CASO PARALELO COM O MESMO TOTAL DE BITS PARA OBTER SPEEDUP E EFICIENCIA
+    # Unindo os dados num único dict para facilitar processamento
+    # UniaoSeq[i] = [Lista de tempo das execuções com i bits]
+    UniaoSeq = juntar(CompS1, CompS2, CompS3, CompS4, CompS5)
+    UniaoPar = juntar(CompP1, CompP2, CompP3, CompP4, CompP5)
 
-    # Calculando as médias e desvios para SpeedUp/Eficiência
-    MediaCompS1, DesvioCompS1 = media_desvio(CompS1.values())
-    MediaCompS2, DesvioCompS2 = media_desvio(CompS2.values())
-    MediaCompS3, DesvioCompS3 = media_desvio(CompS3.values())
-    MediaCompS4, DesvioCompS4 = media_desvio(CompS4.values())
-    MediaCompS5, DesvioCompS5 = media_desvio(CompS5.values())
+    # Calculando as médias para Speed Up e Eficiência
+    MediasSeq, DesvioSeq = medias_desvios(UniaoSeq)
+    MediasPar, DesvioPar = medias_desvios(UniaoPar)
 
-    MediaCompP1, DesvioCompP1 = media_desvio(CompP1.values())
-    MediaCompP2, DesvioCompP2 = media_desvio(CompP2.values())
-    MediaCompP3, DesvioCompP3 = media_desvio(CompP3.values())
-    MediaCompP4, DesvioCompP4 = media_desvio(CompP4.values())
-    MediaCompP5, DesvioCompP5 = media_desvio(CompP5.values())
+    SpeedUp    = speed_up(MediasSeq, MediasPar)
+    Eficiencia = eficiencia(SpeedUp)
 
-    # Calculando as médias e desvios gerais
-    MediaS1, DesvioS1 = media_desvio(Seq1.values())
-    MediaS2, DesvioS2 = media_desvio(Seq2.values())
-    MediaS3, DesvioS3 = media_desvio(Seq3.values())
-    MediaS4, DesvioS4 = media_desvio(Seq4.values())
-    MediaS5, DesvioS5 = media_desvio(Seq5.values())
+    for bits in SpeedUp:
+        print(f"Execução com {bits} bits")
 
-    MediaP1, DesvioP1 = media_desvio(Par1.values())
-    MediaP2, DesvioP2 = media_desvio(Par2.values())
-    MediaP3, DesvioP3 = media_desvio(Par3.values())
-    MediaP4, DesvioP4 = media_desvio(Par4.values())
-    MediaP5, DesvioP5 = media_desvio(Par5.values())
+        print(f"\tTempo médio de 5 testes Sequenciais: {MediasSeq[bits]:.5f}")
+        print(f"\t\tDesvio Padrão: {DesvioSeq[bits]:.5f}")
 
-    print("Tempos OMP na ens1:")
-    for v in flatten(list(OMP1.values())):
-        print(v, end=" ")
-    print()
-    print("Média =", mediaOMP1)
-    print("Desvio Padrão =", desviosOMP1)
+        print(f"\tTempo médio de 5 testes Paralelos: {MediasPar[bits]:.5f}")
+        print(f"\t\tDesvio Padrão: {DesvioPar[bits]:.5f}")
 
-    print()
+        print(f"\tSpeed Up de: {SpeedUp[bits]:.5f}")
+        print(f"\tEficiência de: {Eficiencia[bits]*100:.5f}%")
+        # print(f"bits={bits}")
+        # print(f"{MediasSeq[bits]}")
+        # print(f"{DesvioSeq[bits]}")
+        # print(f"{MediasPar[bits]}")
+        # print(f"{DesvioPar[bits]}")
+        # print(f"{SpeedUp[bits]}")
+        # print(f"{Eficiencia[bits]}")
+        # print()
 
-    print("Tempos OMP na ens2:")
-    for v in flatten(list(OMP2.values())):
-        print(v, end=" ")
-    print()
-    print("Média =", mediaOMP2)
-    print("Desvio Padrão =", desviosOMP2)
 
-    print()
+    # plot_times(list(Seq1.values()), list(Seq1.keys()), "Sequencial Teste 1")
+    # plot_times(list(Seq2.values()), list(Seq2.keys()), "Sequencial Teste 2")
+    # plot_times(list(Seq3.values()), list(Seq3.keys()), "Sequencial Teste 3")
+    # plot_times(list(Seq4.values()), list(Seq4.keys()), "Sequencial Teste 4")
+    # plot_times(list(Seq5.values()), list(Seq5.keys()), "Sequencial Teste 5")
 
-    print("Tempos OMP na ens4:")
-    for v in flatten(list(OMP4.values())):
-        print(v, end=" ")
-    print()
-    print("Média =", mediaOMP4)
-    print("Desvio Padrão =", desviosOMP4)
+    # pyplot.xlabel("Qtd de Bits da Chave")
+    # pyplot.ylabel("Tempo (segundos)")
 
-    print()
+    # pyplot.title("Tempo de Execução Sequencial")
+    # pyplot.legend()
 
-    print("Tempos MPI:")
-    for v in flatten(list(MPI.values())):
-        print(v, end=" ")
-    print()
-    print("Média MPI =", mediaMPI)
-    print("Desvio Padrão MPI =", desviosMPI)
+    # pyplot.legend(loc='best')
+    # pyplot.show()
+    # pyplot.close()
 
-    # comente a linha abaixo para gerar os gráficos
-    # exit()
+    # times1 = list(Par1.values())[:len(list(Par1.values()))-5]
+    # times2 = list(Par2.values())[:len(list(Par2.values()))-2]
+    # times3 = list(Par3.values())[:len(list(Par3.values()))-1]
 
-    # plotando os gráficos
-    plot_times(flatten(list(OMP1.values())), flatten(list(OMP2.values())), flatten(list(OMP4.values())), flatten(list(MPI.values())))
+    # len1 = list(Par1.keys())[:len(list(Par1.keys()))-5]
+    # len2 = list(Par2.keys())[:len(list(Par2.keys()))-2]
+    # len3 = list(Par3.keys())[:len(list(Par3.keys()))-1]
 
-    # exportando para csv
-    # descomente a linha abaixo para gerar um .csv com os dados das execuções
-    # to_csv(list(OMP.values()), list(MPI.values()))
+    # plot_times(list(Par1.values()), list(Par1.keys()), "Paralelo Teste 1")
+    # plot_times(list(Par2.values()), list(Par2.keys()), "Paralelo Teste 2")
+    # plot_times(list(Par3.values()), list(Par3.keys()), "Paralelo Teste 3")
+    # plot_times(list(Par4.values()), list(Par4.keys()), "Paralelo Teste 4")
+    # plot_times(list(Par5.values()), list(Par5.keys()), "Paralelo Teste 5")
+
+    # pyplot.xlabel("Qtd de Bits da Chave")
+    # pyplot.ylabel("Tempo (segundos)")
+
+    # pyplot.title("Tempo de Execução Paralelo")
+    # pyplot.legend()
+
+    # pyplot.legend(loc='best')
+    # pyplot.show()
+    # pyplot.close()
 
 if __name__ == "__main__":
     main()

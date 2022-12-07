@@ -1,0 +1,21 @@
+\frametitle{Implementação}
+\begin{adjustwidth}{-1cm}{}
+            \begin{lstlisting}
+int forcabruta_paralelo(block * bloco, mpz_t N,
+    int rank){
+
+// tira os dados do bloco
+
+// testa um por um os numeros do limite
+// inferior ao limite superior do bloco
+    if(mpz_divisible_p(N, FatorTestado) != 0){
+        // calcula outro fator
+
+        DONE = 1; // global
+        MPI_Bcast(&DONE, 1, MPI_INT, rank,
+            MPI_COMM_WORLD);
+        // comunica todos os processos que terminou
+    }
+}
+            \end{lstlisting}
+        \end{adjustwidth}
