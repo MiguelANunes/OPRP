@@ -31,6 +31,21 @@
 *.out
 *.app
 
-**/Publica-*
-**/Privada-*
-**/N-*
+*.log
+*.aux
+*.bbl
+*.synctex.gz
+*.idx
+*.ind
+*.toc
+*.blg
+*.fdb*
+*.dvi
+*.fls
+*.xcp
+*.brf
+*.ilg
+*.swp
+*.lof
+*.loq
+*.lot
