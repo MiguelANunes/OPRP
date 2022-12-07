@@ -1,0 +1,159 @@
+\documentclass[xcolor=table]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[alf]{abntex2cite}	
+\usepackage{udesc}
+\usepackage{amsfonts,amsmath,amssymb,mathtools}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage[ddmmyyyy]{datetime}
+\usepackage{hyperref, url}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{changepage}
+
+\usepackage{pgfplots}
+\usepackage{textcomp}
+\usepackage{geometry}
+
+\newcommand{\uglyphi}{\phi} % mantendo o \phi velho
+\renewcommand \phi{\varphi}
+\let \emptyset \varnothing
+
+\graphicspath{{Figuras/}}
+\setbeamertemplate{frametitle continuation}{}
+
+% suprimindo warnings do hyperref
+\pdfstringdefDisableCommands{%
+  \def\\{}%
+  \def\texttt#1{<#1>}%
+  \def\smallskip{}%
+  \def\medskip{}%
+}
+
+\lstset{language=C++,
+    basicstyle=\ttfamily,
+    keywordstyle=\color{blue}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    commentstyle=\color{green}\ttfamily,
+    morecomment=[l][\color{magenta}]{\#}
+}
+
+\renewcommand{\figurename}{Figura}
+\sloppy
+\title[]{Trabalho Final de Programação Paralela - Paralelizando Quebra de Chaves do Algoritmo RSA}
+
+\author[Miguel Alfredo Nunes]{
+    Miguel Alfredo Nunes\\\smallskip
+    \texttt{miguel.alfredo.nunes@gmail.com}
+}
+
+\date{\today}
+
+\begin{document}
+    
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    \begin{frame}[allowframebreaks]{Sumário}
+        \tableofcontents
+    \end{frame}
+
+    \begin{frame}{Algoritmo RSA}
+
+    \end{frame}
+    
+    \begin{frame}{Fatorando as Chaves}
+
+    \end{frame}
+    
+    \begin{frame}{Detalhes da Implementação}
+        
+    \end{frame}
+
+    \begin{frame}{Dificuldades na Implementação}
+
+    \end{frame}
+
+    \begin{frame}{Desempenho Sequecial}
+   
+    \end{frame}
+
+    \begin{frame}{Desempenho Paralelo}
+   
+    \end{frame}
+
+    \begin{frame}{Speed Up e Eficiência}
+   
+    \end{frame}
+
+    \begin{frame}{Gráficos}
+
+    \end{frame}
+
+    % \begin{frame}{Implementação}
+    %     \begin{figure}[htbp]
+    %         \centering
+    %         \includegraphics[scale=.6]{FramesModelosKTK4-3.png}
+    %         \caption{Provas de Corretude das Funções}
+    %     \end{figure}
+    % \end{frame}
+
+    % \begin{frame}{Implementação}
+    %     \begin{adjustwidth}{-.6cm}{}
+    %         \begin{figure}[htbp]
+    %             \centering
+    %             \includegraphics[scale=.5]{TraduçãoFórmulas.png}
+    %             \caption{Traduzindo Fórmulas}
+    %         \end{figure}
+    %     \end{adjustwidth}
+    % \end{frame}
+
+    % \begin{frame}{Implementação}
+    %     \begin{adjustwidth}{0cm}{}
+    %         \begin{figure}[htbp]
+    %             \centering
+    %             \includegraphics[scale=.5]{GenralizaçãoValoração.png}
+    %             \caption{Extensão da Valoração}
+    %         \end{figure}
+    %     \end{adjustwidth}
+    % \end{frame}
+
+    % \begin{frame}{Implementação}
+    %     \begin{adjustwidth}{-.9cm}{}
+    %         \begin{figure}[htbp]
+    %             \centering
+    %             \includegraphics[scale=.5]{SistemaDedutivo.png}
+    %             \caption{Deduções em \(\textbf{KT} \odot \textbf{K4}\)}
+    %         \end{figure}
+    %     \end{adjustwidth}
+    % \end{frame}
+\end{document}
+
+
+% \begin{adjustwidth}{-3cm}{}
+%     \begin{tikzpicture}
+%         \begin{axis}[
+%             title={Tempo de Execução da Fatoração},
+%             axis lines = left,
+%             xlabel={Número de bits},
+%             ylabel={Tempo de Execução [segundos]},
+%             xmin=0, xmax=40,
+%             ymin=0, ymax=400,
+%             xtick={8,12,16,20,24,28,32,36,37},
+%             ytick={0,50,100,200,300,390},
+%             legend pos=north east,
+%         ]
+        
+%         \addplot[
+%             color=blue,
+%             mark=square,
+%             ]
+%             coordinates {
+%             (8,1.1765e-05)(12,6.522e-05)(16,0.00045097)(20,0.0130463)(24,0.25393)(28,1.91251)(32,42.8216)(36,100.659)(37,385.322)
+%             };
+            
+%         \end{axis}
+%     \end{tikzpicture}        
+% \end{adjustwidth}
