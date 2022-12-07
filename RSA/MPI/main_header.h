@@ -12,7 +12,7 @@ extern std::string FILENAME; // definindo o nome do arquivo como uma constante g
 // pra facilitar a vida
 
 extern int THREADS; // constante que me indica quantas threads estarei usando
-
+extern int PROCS; // qtd de processos que vão ser executados
 extern int DONE;
 
 typedef struct

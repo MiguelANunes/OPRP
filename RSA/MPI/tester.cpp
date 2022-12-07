@@ -10,12 +10,13 @@
 
 using namespace std;
 int THREADS;
+int PROCS;
 // int DONE;
 
 vector<block> generate_input(int TOTALBITS, mpz_t N, int rank){
 	// função que gera um array de blocos para serem fatorados
 
-	int total_blocos = THREADS * 8;
+	int total_blocos = THREADS * PROCS * 8;
 	block bloco;
 	vector<block> blocos;
 
@@ -32,26 +33,33 @@ vector<block> generate_input(int TOTALBITS, mpz_t N, int rank){
 
 	mpz_fdiv_q(upper, sqrt, total_blocos_mpz); // upper = sqrt(N)/total_blocos
 
-	bloco.lower  = string(mpz_get_str(NULL, 10, lower));
-	bloco.upper  = string(mpz_get_str(NULL, 10, upper));
-	bloco.valorP = "0";
-	bloco.valorQ = "0";
-	blocos.push_back(bloco);
+	int turn = 0;
+	// variável que define qual processo vai carregar um dado na memória
+	// começa igual para todos, reseta para 0 quando chega no limite de processos
+
+	if(turn == rank){
+		bloco.lower  = string(mpz_get_str(NULL, 10, lower));
+		bloco.upper  = string(mpz_get_str(NULL, 10, upper));
+		bloco.valorP = "0";
+		bloco.valorQ = "0";
+		blocos.push_back(bloco);
+		turn++;
+	}
 	// colocando o primeiro bloco no vector fora do loop
 	// pois da problema tentar colocar isso dentro do loop
 
 	// primeiro bloco tem lower = 3, upper = sqrt(N)/total_blocos
 	// segundo bloco tem lower = (sqrt(N)/total_blocos) + 1, upper = 2*(sqrt(N)/total_blocos)
 
-	int alternate = rank;
-	// variável que define se vai ou não inserir no conjunto de dados de um dado processo
-	// alterna a cada loop, mas inicia diferente
-
 	for(int i = 1; i < total_blocos; i++){
-		if(!alternate){
-			alternate = 1; // flip
+		if(turn == PROCS)
+			turn = 0;// volta pro começo quando deu o máximo
+
+		if(rank != turn){// só calcula se for a vez de calcular
+			turn++; // se não, passa
 			continue;
 		}
+
 		mpz_cdiv_q(lower, sqrt, total_blocos_mpz); // o limite inferior é o último limite superior arredondado para cima
 		mpz_sub_ui(total_blocos_mpz, total_blocos_mpz, 1);
 		mpz_fdiv_q(upper, sqrt, total_blocos_mpz); // o limite superior é a divisão da raiz de N pelo total de blocos restante
@@ -61,8 +69,8 @@ vector<block> generate_input(int TOTALBITS, mpz_t N, int rank){
 		bloco.valorP = "0";									 // ^ construtor de strings de C++
 		bloco.valorQ = "0";
 		blocos.push_back(bloco);
+		turn++; // depois que calcula, passa a vez
 
-		alternate = 0; // flop
 	}
 
 	mpz_clears(lower, upper, sqrt, total_blocos_mpz, NULL);
@@ -79,6 +87,7 @@ int main(int argc, char *argv[]){
 
 	TOTALBITS = atoi(argv[1]);
 	THREADS   = atoi(argv[2]);
+	PROCS     = atoi(argv[3]);
 	omp_set_num_threads(THREADS); // definindo o número de threads a serem usadas
 	omp_set_dynamic(0); // desabilitando scheduling dinâmico, garantindo que usaram somente tantas threads quanto eu falei
 
