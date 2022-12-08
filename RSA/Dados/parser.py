@@ -264,19 +264,19 @@ def main():
     SpeedUp    = speed_up(MediasSeq, MediasPar)
     Eficiencia = eficiencia(SpeedUp)
 
-    for bits in SpeedUp:
-        print(f"Execução com {bits} bits")
+    for bits in Par5:
+        # print(f"Execução com {bits} bits")
 
-        print(f"\tTempo médio de 5 testes Sequenciais: {MediasSeq[bits]:.5f}")
-        print(f"\t\tDesvio Padrão: {DesvioSeq[bits]:.5f}")
+        # print(f"\tTempo médio de 5 testes Sequenciais: {MediasSeq[bits]:.5f}")
+        # print(f"\t\tDesvio Padrão: {DesvioSeq[bits]:.5f}")
 
-        print(f"\tTempo médio de 5 testes Paralelos: {MediasPar[bits]:.5f}")
-        print(f"\t\tDesvio Padrão: {DesvioPar[bits]:.5f}")
+        # print(f"\tTempo médio de 5 testes Paralelos: {MediasPar[bits]:.5f}")
+        # print(f"\t\tDesvio Padrão: {DesvioPar[bits]:.5f}")
 
-        print(f"\tSpeed Up de: {SpeedUp[bits]:.5f}")
-        print(f"\tEficiência de: {Eficiencia[bits]*100:.5f}%")
-        # print(f"bits={bits}")
-        # print(f"{MediasSeq[bits]}")
+        # print(f"\tSpeed Up de: {SpeedUp[bits]:.5f}")
+        # print(f"\tEficiência de: {Eficiencia[bits]*100:.5f}%")
+        print(f"({bits}, {Par5[bits]})",end="")
+    print()
         # print(f"{DesvioSeq[bits]}")
         # print(f"{MediasPar[bits]}")
         # print(f"{DesvioPar[bits]}")
